@@ -1,0 +1,44 @@
+.loggedin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 97vw;
+    border: 1px solid #af19af;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+    .color{
+        color: #850685;
+        text-transform: uppercase;
+    }
+    h2{
+        margin-bottom: 2rem;
+        margin-top: 3rem;
+    }
+    p{
+        margin-bottom: 1.5rem;
+    }
+    img{
+        width: 15rem;
+        margin-bottom: 1rem;
+    }
+    a{
+        margin-bottom: 1rem;
+    }
+    button{
+        border: none;
+        border-radius: 5px;
+        background-color: #850685;
+        transition: all 0.4s;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        &:hover{
+            background-color: #530853;
+        }
+    }
+}

@@ -1,52 +1,44 @@
-import React, {useState, useContext} from 'react'
-import { Link } from 'react-router-dom'
-import { LoginData } from '../Helpers/Context'
+import React, {useState, useEffect} from 'react'
+import { Link, useNavigate} from 'react-router-dom'
 import bsman from '../assets/bm.png'
 import fb from '../assets/fb.png'
 import tree from '../assets/tree.png'
 import ggle from '../assets/ggle.svg'
 
 function SignIn() {
-    let [name, setName] = useState(null);
-    let [email, setEmail] = useState(null);
-    let [username, setUsername] = useState(null);
-    let [phone, setPhone] = useState(null);
-    let [password, setPassword] = useState(null);
-    let [gender, setGender] = useState(null);
-    let [date, setDate] = useState(null);
-    let [error, setError] = useState(null);
-    let [user, setUser] = useState(false);
+    let navigate = useNavigate()
+    const [error, setError] = useState(false);
+   const [inputValues, setInputValues] = useState({
+       email: "",
+       password: "",
+   })
 
-    const onChangeEmail = (e) =>{
-        setEmail(e.target.value)
-      }
+   const handleChange = (e) => {
+       setInputValues({...inputValues, [e.target.name]: e.target.value})
+   }
 
-    const onChangePassword = (e) =>{
-        setPassword(e.target.value)
-    }
-
-    const onSubmit = (e) =>{
+    const onSubmit = (e) => {
         e.preventDefault()
-        let existData = localStorage.getItem('data')
-        let existArray = JSON.parse(existData)
-        existArray.map(array => 
-          {
-            if(email.length > 0 && password.length > 0){
-              if (array.email === email && (array.password === password)) {
-                name = setName(array.name)
-                username = setUsername(array.username)
-                phone = setPhone(array.phone)
-                gender = setGender(array.gender)
-                date = setDate(array.date)
-                user = setUser(true)
-                console.log(phone)
-              }else{
-                error = setError('Please check your email or password')
-              }
-            }
-          }
-          )
+        checkExistingUser()
+        setThError()
       }
+
+      const checkExistingUser = () => {
+        let existData = localStorage.getItem('LoginData')
+        if (existData) existData = JSON.parse(existData)
+        console.log(existData, "<New exist Data", inputValues, "<inputvalues")
+        if(existData && (existData.email === inputValues.email && existData.password === inputValues.password)){
+            navigate("/Loggedin")
+        }  else console.log("error")
+      }
+      const setThError = () => {
+        setError(true)
+      }
+      useEffect(() => {
+       checkExistingUser()
+        // eslint-disable-next-line
+      }, [])
+
     return (
         <div className="container">
         <div className="form-left">
@@ -55,13 +47,23 @@ function SignIn() {
                 <p className= "form-text"> Please provide the following information to  Login</p>
                 <div className="input-wrap">
                     <label htmlFor="email">Email</label> <br/>
-                    <input type="email" placeholder="eg. johndoe@example.com"  id="email" onChange={onChangeEmail}/>
+                    <input 
+                        type="email" 
+                        placeholder="eg. johndoe@example.com"  
+                        id="email" 
+                        name="email"
+                        onChange={(e) => handleChange(e) }/>
                 </div>
                 <div className="input-wrap">
                     <label htmlFor="password">Password</label> <br/>
-                    <input type="password" 
-                     placeholder="*******"  id="password" onChange={onChangePassword}/>
+                    <input 
+                        type="password" 
+                        placeholder="*******"  
+                        id="password" 
+                        name="password"
+                        onChange={(e) => handleChange(e) }/>
                 </div>
+                <p>{error && "Account not found"}</p>
                 <button className="btn" onClick={onSubmit}>
                     Sign In
                 </button>

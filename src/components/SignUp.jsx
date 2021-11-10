@@ -6,59 +6,34 @@ import tree from '../assets/tree.png'
 import ggle from '../assets/ggle.svg'
 
 function SignUp() {
-    const [name, setName] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [username, setUsername] = useState(null);
-    const [phone, setPhone] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [gender, setGender] = useState(null);
-    const [date, setDate] = useState(null);
+    const [inputItems, setInputItems] = useState({
+            name : "",
+            email: "",
+            username: "",
+            phone: "",
+            password: "",
+            gender: "",
+            date: "",
+    })
 
-    const onChangeName = (e) =>{
-        setName(e.target.value)
-      }
-    const onChangeEmail = (e) =>{
-        setEmail(e.target.value)
-      }
-    const onChangeUsername = (e) =>{
-        setUsername(e.target.value)
-      }
-    const onChangePhone = (e) =>{
-        setPhone(e.target.value)
-      }
-    const onChangePassword = (e) =>{
-        setPassword(e.target.value)
-      }
-    const onChangeGender = (e) =>{
-        setGender(e.target.value)
-      }
-    const onChangeDate = (e) =>{
-        setDate(e.target.value)
-      }
+    const handleChange = (e) => {
+        setInputItems({...inputItems, [e.target.name]: e.target.value})
+    }
 
-    function submitHandler(e) {
-        e.preventDefault();
-        let object = {
-            name : name,
-            email: email,
-            username: username,
-            phone: phone,
-            password: password,
-            gender: gender,
-            date: date,
+    const onSubmit = (e) => {
+        e.preventDefault()
+        const object = 
+        {
+            email: inputItems.email, 
+            name: inputItems.name,
+            username: inputItems.username,
+            password: inputItems.password,
+            phone: inputItems.phone,
+            gender: inputItems.gender,
+            date: inputItems.date
         }
-        let existData = localStorage.getItem('data');
-        if(existData==null){
-            existData = []
-            existData.push(object)
-            localStorage.setItem('data', JSON.stringify(existData));
-        }else{
-            let existArray = JSON.parse(existData)
-            existArray.push(object)
-            localStorage.setItem("data", JSON.stringify(existArray))
-            console.log(existArray,'hhg')
-        }
-        // console.log(object)
+        localStorage.setItem("LoginData", JSON.stringify(object))
+        console.log(object)
       }
 
     return (
@@ -69,42 +44,42 @@ function SignUp() {
                     <p className= "form-text"> Please provide the following information to  signup</p>
                     <div className="input-wrap">
                         <label htmlFor="name">Full Name</label> <br/>
-                        <input type="text" placeholder="eg. John Doe" id="name" name="name" onChange={onChangeName}/>
+                        <input type="text" placeholder="eg. John Doe" id="name" name="name" onChange={(e) => handleChange(e) }/>
                     </div>
                     <div className="input-wrap">
                         <label htmlFor="email">Email</label> <br/>
-                        <input type="email" placeholder="eg. johndoe@example.com"  id="email" onChange={onChangeEmail}/>
+                        <input type="email" placeholder="eg. johndoe@example.com" name="email" id="email" onChange={(e) => handleChange(e) }/>
                     </div>
                     <div className="input-wrap">
                         <label htmlFor="username">User Name</label> <br/>
                         <input type="text" 
-                        placeholder="eg. Johndoe123"  id="username" onChange={onChangeUsername}/>
+                        placeholder="eg. Johndoe123"  id="username" name="username" onChange={(e) => handleChange(e) }/>
                     </div>
                     <div className="input-wrap">
                         <label htmlFor="phone">Phone Number</label> <br/>
                         <input type="text" 
-                        placeholder="eg. 10827994090"  id="phone" onChange={onChangePhone}/>
+                        placeholder="eg. 10827994090"  id="phone" name="phone" onChange={(e) => handleChange(e) }/>
                     </div>
                     <div className="input-wrap">
                         <label htmlFor="password">Password</label> <br/>
                         <input type="password" 
-                         placeholder="*******"  id="password" onChange={onChangePassword}/>
+                         placeholder="*******"  id="password" name="password" onChange={(e) => handleChange(e) }/>
                     </div>
                     <div className="input-wrap-two">
                         <div className="input-wrap">
                             <label htmlFor="gender">Gender</label> <br/>
-                            <select name="gender" id="gender" onChange={onChangeGender}>
+                            <select name="gender" id="gender" name="gender" onChange={(e) => handleChange(e) }>
                                 <option value="male">MALE</option>
                                 <option value="female">FEMALE</option>
                             </select>
                         </div>
                         <div className="input-wrap">
                             <label htmlFor="date">Date Of Birth</label> <br/>
-                            <input type="date" id="date" style={{textTransform: "uppercase"}} onChange={onChangeDate}/>
+                            <input type="date" id="date" name="date" style={{textTransform: "uppercase"}} onChange={(e) => handleChange(e) }/>
                         </div>
                     </div>
-                    <button className="btn" onClick={submitHandler}>
-                        Sign Up
+                    <button className="btn" onClick={onSubmit}>
+                    <Link className="link" to="/Signin">Sign Up</Link>
                     </button>
                     <p className="text">Already have an account? <Link className="link" to="/Signin">Login</Link></p>
                     <p className="text-two">Or</p>

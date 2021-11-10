@@ -125,6 +125,11 @@
                 font-weight: 300;
                 cursor: pointer;
                 transition: all 0.4s;
+                .link{
+                    font-size: 1.1rem;
+                    text-decoration: none;
+                    color: white;
+                }
                 &:hover{
                     background: #5c228f;
                 }
